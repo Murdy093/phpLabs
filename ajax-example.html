@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <title>AjaxExample</title>
+</head>
+<body>
+    <div id="dataContainer">
+    </div>
+</body>
+<script>
+    let url="http://localhost/lab4/api/categories-json.php";
+    let container = document.getElementById('dataContainer');
+    fetch(url).then(response=>response.json())
+    .then(data=>{
+        for (i = 0; i < data.length; i++) {
+            container.innerHTML += '<b>' + data[i]['id'] + '.</b> ' + data[i]['name'] + '<br>';
+        }
+    });
+   
+</script>
+</html>
