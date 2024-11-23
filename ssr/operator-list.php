@@ -38,11 +38,14 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete'){
             <input type="search" name="query" placeholder="Задайте слово" required/>
             <button type="submit" class="btn btn-primary">Пошук</button>
             </div>
+            <a class="btn btn-success nav-item" style="width:50px;" href="operator-list.php?sort=2">↓</a>
+            <a class="btn btn-success nav-item" style="width:50px; margin-left:100px;" href="operator-list.php?sort=4">↓</a>
+            <a class="btn btn-success nav-item" style="width:50px; margin-left:600px;" href="operator-list.php?sort=3">↓</a>
         </form>
         <table class="table">
             <thead>
                 <tr>
-                    <th>Назва</th>
+                    <th>Назвa</th>
                     <th>Опис</th>
                     <th>Категорія</th>
                     <th>Дії</th>
@@ -50,10 +53,11 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete'){
             </thead>
             <tbody>
                 <?php 
+                 $sortField = isset($_GET['sort']) ? (int)$_GET['sort'] : 2;
                     if ($_SERVER['REQUEST_METHOD']=="GET" && isset($_GET['query'])) {
                         $opList->getBySearchQuery($conn, $_GET['query']);
                     } else {
-                        $opList->getFromDatabase($conn);
+                        $opList->sortData($conn, $sortField);
                     }
                     echo $opList->exportAsTableData(); 
                 ?>

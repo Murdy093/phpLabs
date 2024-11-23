@@ -144,4 +144,24 @@ class OperatorList extends BaseList {
             }
         }
     }   
+
+    public function sortData($conn, $sortField = 2){
+        $allowedSortFields = [
+            2 => 'o.operator_name',
+            3 => 'c.category_name',
+            4 => 'o.description'
+        ];
+        $sortColumn = $allowedSortFields[$sortField] ?? $allowedSortFields[2];
+    
+        $sql = "SELECT o.operator_id id, o.operator_name name, o.description, c.category_name category, c.category_id 
+                FROM operators o 
+                INNER JOIN categories c ON c.category_id = o.category_id 
+                ORDER BY $sortColumn";
+        $result = $conn->query($sql);
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $this->add($row);
+            }
+        }
+    }
 }

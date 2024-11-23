@@ -124,4 +124,25 @@ class ExampleList extends BaseList {
             }
         }
     }
+
+    public function sortData($conn, $sortField = 3) {
+        
+        $allowedSortFields = [
+            2 => 'e.example_text',  
+            3 => 'o.operator_name'  
+        ];
+        $sortColumn = $allowedSortFields[$sortField] ?? $allowedSortFields[3];
+    
+        $sql = "SELECT e.example_id id, e.example_text, o.operator_name operator, e.operator_id 
+                FROM examples e 
+                INNER JOIN operators o ON e.operator_id = o.operator_id 
+                ORDER BY $sortColumn";
+    
+        $result = $conn->query($sql);
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $this->add($row);
+            }
+        }
+    }
 }
